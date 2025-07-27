@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+modal
+supabase
+python-dotenv
+boto3
