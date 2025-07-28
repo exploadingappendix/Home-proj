@@ -91,7 +91,16 @@ class SQSWorker:
         try:
             # Parse message body
             body = json.loads(message['Body'])
-            job_data = body
+
+            # Check for double-encoded or wrapped messages
+            if isinstance(body, dict) and 'Message' in body:
+                try:
+                    job_data = json.loads(body['Message'])
+                except json.JSONDecodeError:
+                    logger.warning("Failed to parse nested 'Message' field as JSON. Using as-is.")
+                    job_data = body['Message']
+            else:
+                job_data = body
             
             job_id = job_data.get('jobId')
             logger.info(f"Processing job: {job_id}")
@@ -153,12 +162,12 @@ class SQSWorker:
                 shell=False,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                universal_newlines=True,
-                env=env
+                encoding='utf-8',
+                errors='replace'
             )
             
             try:
-                stdout, stderr = proc.communicate(timeout=600)  # 10 minute timeout
+                stdout, stderr = proc.communicate(timeout=600) 
             except subprocess.TimeoutExpired:
                 proc.kill()
                 logger.error("Modal training timed out after 10 minutes")
