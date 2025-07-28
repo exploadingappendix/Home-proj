@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   else if (req.method === 'POST') {
     // proxy to FastAPI backend
     try {
-      const response = await fetch(`${process.env.BACKEND_API_URL}/jobs`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
