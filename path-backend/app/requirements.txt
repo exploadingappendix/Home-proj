@@ -4,3 +4,6 @@ modal
 supabase
 python-dotenv
 boto3
+stable-baselines3
+gym
+torch
