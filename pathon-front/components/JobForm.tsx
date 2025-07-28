@@ -31,13 +31,13 @@ export function JobForm() {
     setMessage("");
 
     const payload = {
-      jobName,
-      modelType,
-      trainingSteps: Number(trainingSteps),
-      learningRate: Number(learningRate),
+      name: jobName,
+      model_type: modelType,
+      training_steps: Number(trainingSteps),
+      learning_rate: Number(learningRate),
       description,
     };
-    console.log('Sending payload:', payload);
+    console.log("Sending payload:", payload);
     try {
       // Call FastAPI directly
       const res = await fetch("/api/jobs", {
@@ -67,7 +67,9 @@ export function JobForm() {
           }
         } catch (e) {
           const errorData = await res.json().catch(() => ({}));
-          throw new Error(errorData.detail || `HTTP ${res.status}: ${res.statusText}`);
+          throw new Error(
+            errorData.detail || `HTTP ${res.status}: ${res.statusText}`
+          );
         }
         throw new Error(errorMessage);
       }
