@@ -34,7 +34,7 @@ export function JobForm() {
 
     try {
       // Call FastAPI directly
-      const res = await fetch(`${API_URL}/jobs`, {
+      const res = await fetch('/api/jobs', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
